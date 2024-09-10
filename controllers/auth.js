@@ -11,19 +11,19 @@ const newUser= async(req,res=response)=>{
         if(existsEmail){
             return res.status(400).json({ok:false,msg:'The email is already registered'});
         }
-        const user= new User(req.body);
+        const userDB= new User(req.body);
 
         //Encrypt password
         const salt= bcrypt.genSaltSync();
-        user.password=bcrypt.hashSync(password,salt);
+        userDB.password=bcrypt.hashSync(password,salt);
    
 
-        await user.save();
+        await userDB.save();
         //generate jwt
-        const token=await generateJWT(user.id);
+        const token=await generateJWT(userDB.id);
 
 
-        res.json({ok:true,user,token});
+        res.json({ok:true,userDB,token});
         
     } catch (error) {
         console.log(error);
@@ -62,11 +62,11 @@ const renewToken =async(req,res=response)=>{
 
     const uid= req.uid;
     const token = await generateJWT(uid);
-    const user = await User.findById(uid);
+    const userDB = await User.findById(uid);
 
 
 
-    res.json({ok:true,user,token});
+    res.json({ok:true,userDB,token});
 };
 
 module.exports={
