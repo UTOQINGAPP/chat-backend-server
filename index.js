@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 require('dotenv').config();
 
 //DB Config
@@ -24,6 +25,9 @@ require('./sockets/socket');
 // Path público
 const publicPath = path.resolve( __dirname, 'public' );
 app.use( express.static( publicPath ) );
+app.use(cors({
+    origin: '*'
+  }));
 
 //Mis rutas
 app.use('/api/login',require('./routes/auth'));

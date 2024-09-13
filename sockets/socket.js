@@ -9,7 +9,9 @@ const {loggedInUser,
 io.on('connection', client => {
     console.log('Cliente conectado');
     
-    const [check,uid]=checkJWT(client.handshake.headers['x-token']);
+    //const [check,uid]=checkJWT(client.handshake.headers['x-token']);
+    const [check,uid]=checkJWT(client.handshake.query.token);
+    console.log(check);
     if(!check){return client.disconnect();}
     loggedInUser(uid);
  
